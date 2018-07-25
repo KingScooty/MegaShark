@@ -29,6 +29,8 @@
 #include "Adafruit_TLC59711.h"
 #include "Particle.h"
 
+#include <math.h>
+
 // How many boards do you have chained?
 #define NUM_TLC59711 1
 
@@ -62,12 +64,36 @@ void loop() {
     // tlc.setLED(0, 0, 0, 0);
     // delay(200);
 
+    // channels 0 - 11
+    // max PWM = 65335
 
-    // eyeLeft();
-  //colorWipe(65535, 0, 0, 100); // "Red" (depending on your LED wiring)
+    float in, out;
+
+    for (in = 0; in < 6.283; in = in + 0.001)
+    {
+      out = sin(in) * 32667.5 + 32667.5;
+      // analogWrite(LED,out);
+        tlc.setPWM(0, out);
+        tlc.write();
+    }
+
+
+    // tlc.setPWM(0, 65335);
+    // tlc.setPWM(11, 10);
+    // tlc.write();
+    // tlc.setPWM(1, 65335);
+    // tlc.setPWM(2, 65335);
+    // tlc.setPWM(3, 65335);
+    // tlc.setPWM(4, 65335);
+    // tlc.setPWM(5, 65335);
+    // tlc.setPWM(6, 65335);
+    // tlc.setPWM(7, 65335);
+    // tlc.setPWM(8, 65335);
+    // tlc.setPWM(9, 65335);
 
 
 
+  // colorWipe(65535, 0, 0, 100); // "Red" (depending on your LED wiring)
   // delay(200);
   // colorWipe(0, 65535, 0, 100); // "Green" (depending on your LED wiring)
   // delay(200);
@@ -86,15 +112,6 @@ void colorWipe(uint16_t r, uint16_t g, uint16_t b, uint8_t wait) {
       delay(wait);
   }
 }
-
-void eyeLeft() {
-    //65535, 0, 0, 100
-    tlc.setLED(2, 65535, 0 , 0);
-    // tlc.write();
-    // delay(wait);
-}
-
-
 
 // Slightly different, this makes the rainbow equally distributed throughout
 void rainbowCycle(uint8_t wait) {
