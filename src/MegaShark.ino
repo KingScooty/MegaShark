@@ -66,16 +66,27 @@ void loop() {
 
     // channels 0 - 11
     // max PWM = 65335
+    // tlc.setPWM(1, 35000);
+    // tlc.write();
 
-    float in, out;
+    float in1, out1;
 
-    for (in = 0; in < 6.283; in = in + 0.001)
+    for (in1 = 0; in1 < 6.283; in1 = in1 + 0.001)
     {
-      out = sin(in) * 32667.5 + 32667.5;
-      // analogWrite(LED,out);
-        tlc.setPWM(0, out);
+      out1 = sin(in1) * 32667.5 + 32667.5;
+        tlc.setPWM(0, out1);
+        tlc.setPWM(1, out1);
         tlc.write();
     }
+
+    // float in2, out2;
+    //
+    // for (in2 = 0; in2 < 6.283; in2 = in2 + 0.001)
+    // {
+    //   out2 = sin(in2) * 32667.5 + 32667.5;
+    //     tlc.setPWM(1, out2);
+    //     tlc.write();
+    // }
 
 
     // tlc.setPWM(0, 65335);
