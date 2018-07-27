@@ -56,6 +56,36 @@ void setup() {
   Particle.publish("Finish setup");
 }
 
+class fader {
+  // private:
+
+
+  // public:
+  //   fade(int channel, float offset):
+  public:
+    void fade(int channel, float offset) {
+      static float PI = 3.1415;
+      static float inDefault = PI * offset; //4.712; //0;
+      static float in = inDefault;
+      static float stop = (PI * 2) + in;
+      float out;
+
+      in = in + 0.01;
+
+      if (in > stop)
+        in = inDefault;
+
+      out = sin(in) * 32667.5 + 32667.5;
+      tlc.setPWM(channel, out);
+      tlc.write();
+    }
+
+
+};
+
+fader f1;
+fader f2;
+
 void loop() {
     // tlc.setLED(0, 65535, 0, 0);
     // tlc.setLED(0, 0, 65535, 0);
@@ -79,8 +109,8 @@ void loop() {
     //     tlc.write();
     // }
 
-    fade(1);
-    fade(0);
+    f1.fade(1, 0);
+    f2.fade(0, 1.5);
 
     // float in2, out2;
     //
@@ -117,29 +147,22 @@ void loop() {
   // rainbowCycle(5);
 }
 
-void fade(int channel) {
-  static float in = 4.712; //0;
-  static float stop = 6.383 + in;
-  float out;
-
-  in = in + 0.01;
-
-  if (in > stop)
-    in = 4.712;
-
-  out = sin(in) * 32667.5 + 32667.5;
-  tlc.setPWM(channel, out);
-  tlc.write();
-
-  // if (in1 < stop) {
-  //   out1 = sin(in1) * 32667.5 + 32667.5;
-  //   tlc.setPWM(channel, out1);
-  //   tlc.write();
-  //   in1 = in1 + 0.01;
-  // } else {
-  //   in1 = 4.712;
-  // }
-}
+// void fade(int channel, float offset) {
+//   static float PI = 3.1415;
+//   static float inDefault = PI * offset; //4.712; //0;
+//   static float in = inDefault;
+//   static float stop = (PI * 2) + in;
+//   float out;
+//
+//   in = in + 0.01;
+//
+//   if (in > stop)
+//     in = inDefault;
+//
+//   out = sin(in) * 32667.5 + 32667.5;
+//   tlc.setPWM(channel, out);
+//   tlc.write();
+// }
 
 // Fill the dots one after the other with a color
 void colorWipe(uint16_t r, uint16_t g, uint16_t b, uint8_t wait) {
