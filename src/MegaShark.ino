@@ -66,18 +66,21 @@ void loop() {
 
     // channels 0 - 11
     // max PWM = 65335
-    // tlc.setPWM(1, 35000);
+    // tlc.setPWM(0, 65335);
     // tlc.write();
 
-    float in1, out1;
+    // float in1, out1;
+    //
+    // for (in1 = 0; in1 < 6.283; in1 = in1 + 0.001)
+    // {
+    //   out1 = sin(in1) * 32667.5 + 32667.5;
+    //     tlc.setPWM(0, out1);
+    //     tlc.setPWM(1, out1);
+    //     tlc.write();
+    // }
 
-    for (in1 = 0; in1 < 6.283; in1 = in1 + 0.001)
-    {
-      out1 = sin(in1) * 32667.5 + 32667.5;
-        tlc.setPWM(0, out1);
-        tlc.setPWM(1, out1);
-        tlc.write();
-    }
+    fade(1);
+    fade(0);
 
     // float in2, out2;
     //
@@ -114,16 +117,28 @@ void loop() {
   // rainbowCycle(5);
 }
 
-
 void fade(int channel) {
-  float in1, out1;
+  static float in = 4.712; //0;
+  static float stop = 6.383 + in;
+  float out;
 
-  if (in1 < 6.283) {
-    out1 = sin(in1) * 32667.5 + 32667.5;
-    tlc.setPWM(channel, out1);
-    tlc.write();
-    in1 = in1 + 0.001
-  }
+  in = in + 0.01;
+
+  if (in > stop)
+    in = 4.712;
+
+  out = sin(in) * 32667.5 + 32667.5;
+  tlc.setPWM(channel, out);
+  tlc.write();
+
+  // if (in1 < stop) {
+  //   out1 = sin(in1) * 32667.5 + 32667.5;
+  //   tlc.setPWM(channel, out1);
+  //   tlc.write();
+  //   in1 = in1 + 0.01;
+  // } else {
+  //   in1 = 4.712;
+  // }
 }
 
 // Fill the dots one after the other with a color
