@@ -115,6 +115,17 @@ void loop() {
 }
 
 
+void fade(int channel) {
+  float in1, out1;
+
+  if (in1 < 6.283) {
+    out1 = sin(in1) * 32667.5 + 32667.5;
+    tlc.setPWM(channel, out1);
+    tlc.write();
+    in1 = in1 + 0.001
+  }
+}
+
 // Fill the dots one after the other with a color
 void colorWipe(uint16_t r, uint16_t g, uint16_t b, uint8_t wait) {
   for(uint16_t i=0; i<8*NUM_TLC59711; i++) {
